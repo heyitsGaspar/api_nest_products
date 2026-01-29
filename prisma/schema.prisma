@@ -1,0 +1,32 @@
+// Esquema de Prisma para usuarios y productos
+// Cambia la url de la base de datos en .env según tu motor (ejemplo: SQLite para pruebas)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  apellido  String
+  rol       Rol
+  productos Producto[]
+}
+
+enum Rol {
+  admin
+  user
+}
+
+model Producto {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  usuarioId   Int
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+}
