@@ -3,23 +3,11 @@ import { Rol } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service';
 
 import { Usuario } from '../domain/user.model';
-import {
-  DuplicateEmailError,
-  UnauthorizedError,
-} from '../../errors/user.errors';
+import { UnauthorizedError } from '../../errors/user.errors';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async createUser(data: Omit<Usuario, 'id'>): Promise<Usuario> {
-    // Verifica si el correo ya existe
-    const exists = await this.prisma.usuario.findUnique({
-      where: { correo: data.correo },
-    });
-    if (exists) throw new DuplicateEmailError(data.correo);
-    return this.prisma.usuario.create({ data });
-  }
 
   async getUsers(): Promise<Usuario[]> {
     return this.prisma.usuario.findMany();

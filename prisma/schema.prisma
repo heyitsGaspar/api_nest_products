@@ -11,12 +11,14 @@ datasource db {
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  apellido  String
-  correo    String   @unique
-  rol       Rol
-  productos Producto[]
+  id            Int      @id @default(autoincrement())
+  nombre        String
+  apellido      String
+  correo        String   @unique
+  password      String
+  refreshToken  String?
+  rol           Rol
+  productos     Producto[]
 }
 
 enum Rol {
